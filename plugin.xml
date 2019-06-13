@@ -36,5 +36,8 @@
 		<js-module src="src/browser/FaceDetectorProxy.js" name="FaceDetectorProxy">
 			<runs />
 		</js-module>
+        <js-module src="src/browser/pico.min.js" name="Pico">
+			<merges target="Pico" />
+		</js-module>
 	</platform>
 </plugin>
