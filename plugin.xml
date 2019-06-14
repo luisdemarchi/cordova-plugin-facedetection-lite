@@ -15,7 +15,15 @@
 				<param name="ios-package" value="FaceDetector" />
 			</feature>
 		</config-file>
-		<source-file src="src/ios/FaceDetector.m" />
+		<config-file platform="ios" target="*-Info.plist" parent="NSCameraUsageDescription" overwrite="true">
+			<string>Allow the app to use your camera</string>
+		</config-file>
+		<source-file src="src/ios/FaceDetector.m" target-dir="FaceDetector" />
+		<!-- Compiled C libraries -->
+		<source-file src="src/ios/libs/libpicornt.a" framework="true" />
+		<!-- C header files -->
+		<header-file src="src/ios/libs/headers/libpicornt.h" target-dir="FaceDetector"/>
+		<header-file src="src/ios/libs/headers/hello.h" target-dir="FaceDetector"/>
 	</platform>
 
 	<!-- android -->
@@ -36,7 +44,7 @@
 		<js-module src="src/browser/FaceDetectorProxy.js" name="FaceDetectorProxy">
 			<runs />
 		</js-module>
-        <js-module src="src/browser/pico.min.js" name="Pico">
+		<js-module src="src/browser/pico.min.js" name="Pico">
 			<merges target="Pico" />
 		</js-module>
 	</platform>

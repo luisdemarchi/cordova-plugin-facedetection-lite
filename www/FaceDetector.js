@@ -24,7 +24,7 @@ function initFaceDetector(sizeFrameMemory, faceFinderPath, result) {
         result(true);
     }
 
-    exec(callback, callback, "FaceDetector", "initFaceDetector", { sizeFrameMemory: sizeFrameMemory, faceFinderPath: faceFinderPath });
+    exec(callback, callback, "FaceDetector", "initFaceDetector", [{ sizeFrameMemory: sizeFrameMemory, faceFinderPath: faceFinderPath }]);
 };
 
 function detections(rgba, height, width, minSizeFace, maxSizeFace, iouthreshold, result) {
@@ -41,10 +41,10 @@ function detections(rgba, height, width, minSizeFace, maxSizeFace, iouthreshold,
 
     var detections = function (_dets) {
         var dets = faceFrameMemory(_dets);
-        exec(cluster, cluster, "FaceDetector", "cluster", { iouthreshold: iouthreshold, detections: dets });
+        exec(cluster, cluster, "FaceDetector", "cluster", [{ iouthreshold: iouthreshold, detections: dets }]);
     }
 
-    exec(detections, detections, "FaceDetector", "detections", { rgba: rgba, height: height, width: width, params: params, faceFinderClassifyRegion: faceFinderClassifyRegion });
+    exec(detections, detections, "FaceDetector", "detections", [{ rgba: rgba, height: height, width: width, params: params, faceFinderClassifyRegion: faceFinderClassifyRegion }]);
 }
 
 module.exports = {
