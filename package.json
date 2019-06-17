@@ -1,7 +1,7 @@
 {
   "name": "cordova-plugin-facedetector",
-  "version": "1.0.0",
-  "description": "Native Pico component for Face Detect",
+  "version": "0.1.0",
+  "description": "A face detection library in 200 lines of JavaScript for Browser and C for native mobile.",
   "cordova": {
     "id": "cordova-plugin-facedetector",
     "platforms": [
@@ -15,11 +15,14 @@
     "url": "git+ssh://git@gitlab.com:employer/cordova-plugin-facedetector.git"
   },
   "keywords": [
+    "face",
+    "detector",
+    "reconhecer",
     "ecosystem:cordova",
     "cordova-ios",
     "cordova-android",
     "cordova-browser"
   ],
   "author": "Luís De Marchi",
-  "license": "Licensed"
+  "license": "unlicense"
 }

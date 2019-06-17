@@ -1,28 +1,32 @@
-var cordovaProxy = require("cordova/exec/proxy");
+var faceFrameMemory;
+var faceFinderClassifyRegion;
 
 function initFaceDetector(success, error, args) {
     // { sizeFrameMemory: sizeFrameMemory, faceFinderPath: faceFinderPath }
     var self = this;
     var data = args[0];
-    let imported = document.createElement('script');
-    imported.src = 'pico.min.js';
-    document.head.appendChild(imported);
-
-    let faceFrameMemory = window.pico.instantiate_detection_memory(data.sizeFrameMemory);
-
+    
+    faceFrameMemory = window.pico.instantiate_detection_memory(data.sizeFrameMemory);
     fetch(data.faceFinderPath).then(function (response) {
         response.arrayBuffer().then(function (buffer) {
             var bytes = new Int8Array(buffer);
-            let faceFinderClassifyRegion = pico.unpack_cascade(bytes);
+            faceFinderClassifyRegion = pico.unpack_cascade(bytes);
 
-            success({faceFrameMemory: faceFrameMemory, faceFinderClassifyRegion: faceFinderClassifyRegion});
+            success();
         })
     })
 };
 
 function detections(success, error, args) {
-    // { rgbaX: rgbaX, height: height, width: width, params: params, faceFinderClassifyRegion: faceFinderClassifyRegion }
+    // { rgbaX: rgbaX, height: height, width: width }
     var data = args[0];
+    var params = {
+        "shiftfactor": 0.1,
+        "minsize": data.minSizeFace,
+        "maxsize": data.maxSizeFace,
+        "scalefactor": 1.1
+    }
+
     let image = {
         "pixels": _convertRgbaToGrayscale(data.rgba, data.height, data.width),
         "nrows": data.height,
@@ -30,15 +34,10 @@ function detections(success, error, args) {
         "ldim": data.width
     }
 
-    var dets = window.pico.run_cascade(image, data.faceFinderClassifyRegion, data.params);
+    var dets = window.pico.run_cascade(image, faceFinderClassifyRegion, params);
 
-    success(dets);
-};
+    dets = window.pico.cluster_detections(dets, data.iouthreshold);
 
-function cluster(success, error, args) {
-    // { iouthreshold: iouthreshold, detections: self.dets }
-    var data = args[0];
-    let dets = window.pico.cluster_detections(data.detections, data.iouthreshold);
     success(dets);
 };
 
@@ -48,17 +47,15 @@ function _convertRgbaToGrayscale(rgba, nrows, ncols) {
         for (var c = 0; c < ncols; ++c)
             // gray = 0.2*red + 0.7*green + 0.1*blue
             gray[r * ncols + c] =
-                (2 * rgba[r * 4 * ncols + 4 * c + 0] +
-                    7 * rgba[r * 4 * ncols + 4 * c + 1] +
-                    1 * rgba[r * 4 * ncols + 4 * c + 2]) /
-                10;
+                (0.2126 * rgba[r * 4 * ncols + 4 * c + 0] +
+                    0.7152 * rgba[r * 4 * ncols + 4 * c + 1] +
+                    0.0722 * rgba[r * 4 * ncols + 4 * c + 2]);
     return gray;
 }
 
 module.exports = {
     initFaceDetector: initFaceDetector,
-    detections: detections,
-    cluster: cluster
+    detections: detections
 };
 
 cordovaProxy.add("FaceDetector", module.exports);
