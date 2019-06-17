@@ -1,8 +1,9 @@
 var cordovaProxy = require("cordova/exec/proxy");
 
-function initFaceDetector(success, error, data) {
+function initFaceDetector(success, error, args) {
     // { sizeFrameMemory: sizeFrameMemory, faceFinderPath: faceFinderPath }
     var self = this;
+    var data = args[0];
     let imported = document.createElement('script');
     imported.src = 'pico.min.js';
     document.head.appendChild(imported);
@@ -19,8 +20,9 @@ function initFaceDetector(success, error, data) {
     })
 };
 
-function detections(success, error, data) {
+function detections(success, error, args) {
     // { rgbaX: rgbaX, height: height, width: width, params: params, faceFinderClassifyRegion: faceFinderClassifyRegion }
+    var data = args[0];
     let image = {
         "pixels": _convertRgbaToGrayscale(data.rgba, data.height, data.width),
         "nrows": data.height,
@@ -33,8 +35,9 @@ function detections(success, error, data) {
     success(dets);
 };
 
-function cluster(success, error, data) {
+function cluster(success, error, args) {
     // { iouthreshold: iouthreshold, detections: self.dets }
+    var data = args[0];
     let dets = window.pico.cluster_detections(data.detections, data.iouthreshold);
     success(dets);
 };

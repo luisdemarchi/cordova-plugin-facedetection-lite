@@ -20,3 +20,13 @@ char* c_hello(char* input) {
     return result;
 }
 
+int find_objects
+(
+	float rcsq[], int maxndetections,
+	void* cascade, float angle,
+	void* pixels, int nrows, int ncols, int ldim,
+	float scalefactor, float stridefactor, float minsize, float maxsize
+)
+{
+
+}
