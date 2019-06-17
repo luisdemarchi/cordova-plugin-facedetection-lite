@@ -1,0 +1,41 @@
+{
+  "name": "br.com.luisdemarchi.facedetector",
+  "displayName": "FaceDetector",
+  "version": "0.1.0",
+  "description": "A sample Apache Cordova application example of FaceDetector.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ecosystem:cordova"
+  ],
+  "author": "Apache Cordova Team",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "com.virtuoworks.cordova-plugin-canvascamera": "git+https://github.com/VirtuoWorks/CanvasCameraPlugin.git",
+    "cordova-browser": "^6.0.0",
+    "cordova-ios": "^5.0.1",
+    "cordova-plugin-broadcaster": "^3.1.1",
+    "cordova-plugin-compat": "^1.2.0",
+    "cordova-plugin-device": "^2.0.2",
+    "cordova-plugin-facedetector": "file:../../plugins/cordova-plugin-facedetector"
+  },
+  "devDependencies": {
+    "cordova-plugin-whitelist": "^1.3.3"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-whitelist": {},
+      "com.virtuoworks.cordova-plugin-canvascamera": {
+        "CAMERA_USAGE_DESCRIPTION": "Display video preview"
+      },
+      "cordova-plugin-device": {},
+      "cordova-plugin-facedetector": {}
+    },
+    "platforms": [
+      "browser",
+      "ios"
+    ]
+  }
+}

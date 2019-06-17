@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>oi</title>
+    <script type="text/javascript" src="./pico.min.js"></script>
+    <script type="text/javascript" src="./cordova.js"></script>
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">-->
+</head>
+
+<body>
+    <canvas id="canvasPreview" width=640 height=480></canvas>
+    <canvas id="canvasPreviewMini" width="300" height="300"></canvas>
+    <canvas id="facePreview" width="400" height="400"></canvas>
+    <video id="cameraPreview" autoplay=1 playsinline=1 width=1 height=1></video>
+
+    <script type="text/javascript">
+        console.log("AA -> 0");
+        var cameraPreview = document.getElementById("cameraPreview");
+        var canvasPreview = document.getElementById("canvasPreview");
+        var canvasPreviewMini = document.getElementById("canvasPreviewMini");
+        var facePreview = document.getElementById("facePreview");
+        var cameraPreview;
+
+        var canvasPreviewCtx = canvasPreview.getContext('2d');
+        var canvasPreviewMiniCtx = canvasPreviewMini.getContext("2d");
+
+        canvasPreviewMini.style.width = "inherit";
+        canvasPreviewMini.style.height = "300px";
+        let height = 0;
+        let width = 0;
+        let heightMini = 0;
+        let widthMini = 0;
+        var canvasPreviewMiniSize = false;
+
+        var initialized = false;
+        var isIosApp;
+        console.log("AA -> 0");
+
+        document.addEventListener(
+            "deviceready",
+            function () {
+                console.log("AA -> 1");
+
+                isIosApp = window.device.platform === "iOS";
+                console.log("open");
+                //prepareFaceDetector();
+                start();
+            },
+            false
+        );
+
+        function prepareFaceDetector() {
+            let width = 512;
+            let height = 512;
+            let cls = this;
+            let baseImage = new Image();
+            baseImage.src = "./startFaceDetect.jpg";
+            console.log("aqui 1");
+            baseImage.onload = function () {
+                console.log("aqui 2");
+                canvasPreviewCtx.drawImage(baseImage, 0, 0);
+                console.log("aqui 3");
+                var rgba = canvasPreviewCtx.getImageData(0, 0, width, height).data;
+                console.log("aqui 4:");
+                var blob = new Blob(rgba, { type: 'image/bmp' });
+                console.log("aqui 4.1: " + blob);
+                cordova.plugins.facedetector.test1(rgba, width, height, function (result) {
+                    console.log('* cascade loaded');
+                });
+                console.log("aqui 5");
+            };
+        }
+
+
+        function createLoop(callback) {
+            console.log("Chegouuuu aqui -> 2.4.1")
+            var self = this
+            var last = Date.now()
+            var loop = function () {
+                // console.log("Chegouuuu aqui -> 2.4.2")
+                // For some effects, you might want to know how much time is passed
+                // since the last frame; that's why we pass along a Delta time `dt`
+                // variable (expressed in milliseconds)
+                var dt = Date.now() - last;
+                callback(dt);
+                last = Date.now();
+                requestAnimationFrame(loop);
+            }
+            requestAnimationFrame(loop);
+        }
+
+        function camvas(callback) {
+            var self = this
+            this.callback = callback
+            if (isIosApp) {
+                console.log("Chegouuuu aqui ->  1");
+                // self.createLoop()
+                let options = {
+                    use: 'file',
+                    fps: 15,
+                    hasThumbnail: false,
+                    cameraFacing: "front",
+                    onAfterDraw: function (frame) {
+                        canvasPreview.style.width = "inherit";
+                        canvasPreview.style.height = "110px";
+                        handleCameraSize();
+                    }
+                };
+                window.plugin.CanvasCamera.start(options);
+                console.log("Chegouuuu aqui -> 2")
+                canvasPreview.style.width = "inherit";
+                canvasPreview.style.height = "110px";
+                createLoop(callback);
+                // console.log("Chegouuuu aqui ->  3");
+            } else {
+
+                // The callback happens when we are starting to stream the video.
+                navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then(function (stream) {
+                    // Yay, now our webcam input is treated as a normal video and
+                    // we can start having fun
+                    cameraPreview.srcObject = stream
+                    handleCameraSize();
+                    // Let's start drawing the canvas!
+                    createLoop(callback)
+                }, function (err) {
+                    throw err
+                })
+            }
+        }
+
+        async function handleCameraSize() {
+            if (!isIosApp) {
+                await new Promise(
+                    resolve => (this.cameraPreview.onloadedmetadata = resolve)
+                );
+                this.canvasPreview.width = this.cameraPreview.videoWidth;
+                this.canvasPreview.height = this.cameraPreview.videoHeight;
+            }
+            height = canvasPreview.height;
+            width = canvasPreview.width;
+
+            let scale = 100 / Math.max(width, height);
+            heightMini = Math.floor(height * scale);
+            widthMini = Math.floor(width * scale);
+            if (!canvasPreviewMiniSize && widthMini > 0) {
+                canvasPreviewMiniSize = true;
+                canvasPreviewMini.width = widthMini;
+                canvasPreviewMini.height = heightMini;
+            }
+        }
+
+        function start() {
+            console.log("Apertou botao");
+            var face = {
+                size: 0,
+                center: {
+                    x: 0,
+                    y: 0
+                }
+            }
+            /*
+             (0) check whether we're already running face detection
+             */
+            if (initialized)
+                return; // if yes, then do not initialize everything again
+            /*
+             (1) prepare the pico.js face detector
+             */
+            cordova.plugins.facedetector.initFaceDetector(30, "faceFinderPath", function (result) {
+                console.log('* cascade loaded');
+            });
+            // /*
+            //  (2) get the drawing context on the canvas and define a function to transform an RGBA image to grayscale
+            //  */
+
+
+
+
+            if (isIosApp) {
+                window.plugin.CanvasCamera.initialize(canvasPreview);
+            }
+            /*
+             (3) this function is called each time a video frame becomes available
+             */
+            var countTest = 0;
+            var processfn = function (dt) {
+                // render the video frame to the canvas element and extract RGBA pixel data
+                // console.log("Chegouuuuu -> 1");
+                // var self = this;
+                if (!this.isIosApp) {
+                    // render the video frame to the canvas element and extract RGBA pixel data
+                    // console.log(typeof(cameraPreview))
+                    canvasPreviewCtx.drawImage(cameraPreview, 0, 0);
+                }
+
+
+                countTest += 1;
+                if (countTest % 30 == 1 && widthMini > 0) {
+
+                    canvasPreviewMiniCtx.drawImage(
+                        canvasPreview,
+                        0, 0, width, height,
+                        0, 0, widthMini, heightMini
+                    );
+                    var rgba = canvasPreviewMiniCtx.getImageData(0, 0, widthMini, heightMini).data;
+                    // console.log(rgba);
+                    // cordova.plugins.facedetector.test1(rgba, widthMini, heightMini, function (result) {
+                    //     // console.log('* teste executado');
+                    // });
+
+                    cordova.plugins.facedetector.detections(rgba, widthMini, heightMini, 20, 300, function (result) {
+                        // console.log('* teste executado');
+                    });
+                    if (countTest > 1000) {
+                        countTest = 0;
+                    }
+                }
+                // var blob = new Blob(rgba);
+
+            }
+            /*
+             (4) instantiate camera handling (see https://github.com/cbrandolino/camvas)
+             */
+            var mycamvas = new camvas(processfn);
+            /*
+             (5) it seems that everything went well
+             */
+            initialized = true;
+        }
+    </script>
+</body>
+
+</html>
