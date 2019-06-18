@@ -1,0 +1,65 @@
+{
+  "_from": "cordova-plugin-broadcaster@3.1.1",
+  "_id": "cordova-plugin-broadcaster@3.1.1",
+  "_inBundle": false,
+  "_integrity": "sha512-bnd79mfjYTGQVkohwdtjqzT8ylhAa0O78zjePTzLUP9UM4mOxfxZY3Ry0QzuA+6PJ4VYHAoupCOvtmDxc5oxTw==",
+  "_location": "/cordova-plugin-broadcaster",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "cordova-plugin-broadcaster@3.1.1",
+    "name": "cordova-plugin-broadcaster",
+    "escapedName": "cordova-plugin-broadcaster",
+    "rawSpec": "3.1.1",
+    "saveSpec": null,
+    "fetchSpec": "3.1.1"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-broadcaster/-/cordova-plugin-broadcaster-3.1.1.tgz",
+  "_shasum": "10d2e08c4c5a2f460932c89181df74b24ec80691",
+  "_spec": "cordova-plugin-broadcaster@3.1.1",
+  "_where": "/Volumes/MacHD/luis/Git/employer/tests/example",
+  "author": {
+    "name": "bsorrentino"
+  },
+  "bugs": {
+    "url": "https://github.com/bsorrentino/cordova-broadcaster/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-broadcaster",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "deprecated": false,
+  "description": "Allow send message from Javascript to Native",
+  "engines": {
+    "cordovaDependencies": {
+      "2.2.1": {
+        "cordova": ">3.9.0"
+      },
+      "2.3.0": {
+        "cordova": ">4.0.0"
+      }
+    }
+  },
+  "homepage": "https://github.com/bsorrentino/cordova-broadcaster#readme",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "license": "MIT",
+  "name": "cordova-plugin-broadcaster",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bsorrentino/cordova-broadcaster.git"
+  },
+  "version": "3.1.1"
+}

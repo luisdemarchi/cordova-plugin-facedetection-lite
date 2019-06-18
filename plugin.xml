@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-facedetector" version="0.1.0" 
+	xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<name>FaceDetector</name>
+	<dependency id="cordova-plugin-broadcaster" version="3.1.1" />
+	<js-module name="FaceDetector" src="www/FaceDetector.js">
+		<clobbers target="cordova.plugins.facedetector" />
+	</js-module>
+
+	<!-- ios -->
+	<platform name="ios">
+		<config-file parent="/*" target="config.xml">
+			<feature name="FaceDetector">
+				<param name="ios-package" value="FaceDetector" />
+			</feature>
+		</config-file>
+		<config-file platform="ios" target="*-Info.plist" parent="NSCameraUsageDescription" overwrite="true">
+			<string>Allow the app to use your camera</string>
+		</config-file>
+		<source-file src="src/ios/FaceDetector.m" target-dir="FaceDetector" />
+		<!-- Compiled C libraries -->
+		<source-file src="src/ios/libs/libpicornt.a" framework="true" />
+		<!-- C header files -->
+		<header-file src="src/ios/libs/headers/libpicornt.h" target-dir="FaceDetector"/>
+		<header-file src="src/ios/libs/headers/hello.h" target-dir="FaceDetector"/>
+	</platform>
+
+	<!-- android -->
+	<platform name="android">
+		<config-file parent="/*" target="res/xml/config.xml">
+			<feature name="FaceDetector">
+				<param name="android-package" value="cordova.plugin.facedetector.FaceDetector" />
+			</feature>
+		</config-file>
+		<config-file parent="/*" target="AndroidManifest.xml">
+			<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+		</config-file>
+		<source-file src="src/android/FaceDetector.java" target-dir="src/native/webview/FaceDetector" />
+	</platform>
+
+	<!-- browser -->
+	<platform name="browser">
+		<js-module src="src/browser/FaceDetectorProxy.js" name="FaceDetectorProxy">
+			<runs />
+		</js-module>
+		<js-module src="src/browser/pico.min.js" name="Pico">
+			<merges target="Pico" />
+		</js-module>
+	</platform>
+</plugin>
