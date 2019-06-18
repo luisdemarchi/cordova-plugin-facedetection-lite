@@ -11,112 +11,86 @@
 </head>
 
 <body>
-    <canvas id="canvasPreview" width=640 height=480></canvas>
-    <canvas id="canvasPreviewMini" width="300" height="300"></canvas>
-    <canvas id="facePreview" width="400" height="400"></canvas>
-    <video id="cameraPreview" autoplay=1 playsinline=1 width=1 height=1></video>
+    <video id="cameraPreview" playsinline=1 style="display: none;"></video>
+    <canvas id="cameraIosPreview" width=640 height=480 style="display: none;"></canvas>
+    <canvas id="canvasPreview" width="300" height="300"></canvas>
+    <canvas id="facePreview" width="400" height="400" style="width: 305px; height: inherit;"></canvas>
 
     <script type="text/javascript">
-        console.log("AA -> 0");
         var cameraPreview = document.getElementById("cameraPreview");
+        var cameraIosPreview = document.getElementById("cameraIosPreview");
         var canvasPreview = document.getElementById("canvasPreview");
-        var canvasPreviewMini = document.getElementById("canvasPreviewMini");
-        var facePreview = document.getElementById("facePreview");
-        var cameraPreview;
 
-        var canvasPreviewCtx = canvasPreview.getContext('2d');
-        var canvasPreviewMiniCtx = canvasPreviewMini.getContext("2d");
+        var facePreviewCtx = document.getElementById("facePreview").getContext("2d", { alpha: false });
 
-        canvasPreviewMini.style.width = "inherit";
-        canvasPreviewMini.style.height = "300px";
-        let height = 0;
-        let width = 0;
-        let heightMini = 0;
-        let widthMini = 0;
-        var canvasPreviewMiniSize = false;
+        canvasPreview.style.width = "150px";
+        canvasPreview.style.height = "inherit";
+        var height = 0;
+        var width = 0;
+        var scale = 0;
+        var heightMini = 0;
+        var widthMini = 0;
+        var faceBox = {
+            size: 0,
+            x: 0,
+            y: 0
+        };
 
         var initialized = false;
         var isIosApp;
-        console.log("AA -> 0");
 
         document.addEventListener(
             "deviceready",
             function () {
-                console.log("AA -> 1");
-
                 isIosApp = window.device.platform === "iOS";
                 console.log("open");
-                //prepareFaceDetector();
                 start();
             },
             false
         );
 
-        function prepareFaceDetector() {
-            let width = 512;
-            let height = 512;
-            let cls = this;
-            let baseImage = new Image();
-            baseImage.src = "./startFaceDetect.jpg";
-            console.log("aqui 1");
-            baseImage.onload = function () {
-                console.log("aqui 2");
-                canvasPreviewCtx.drawImage(baseImage, 0, 0);
-                console.log("aqui 3");
-                var rgba = canvasPreviewCtx.getImageData(0, 0, width, height).data;
-                console.log("aqui 4:");
-                var blob = new Blob(rgba, { type: 'image/bmp' });
-                console.log("aqui 4.1: " + blob);
-                cordova.plugins.facedetector.test1(rgba, width, height, function (result) {
-                    console.log('* cascade loaded');
-                });
-                console.log("aqui 5");
-            };
+        function createLoop() {
+            // requestAnimationFrame = memory leak problem 
+            // requestAnimationFrame(loop);
+
+            processfn();
+            window.setTimeout(function () {
+                createLoop();
+            }, 20);
+
+
         }
 
 
-        function createLoop(callback) {
-            console.log("Chegouuuu aqui -> 2.4.1")
-            var self = this
-            var last = Date.now()
-            var loop = function () {
-                // console.log("Chegouuuu aqui -> 2.4.2")
-                // For some effects, you might want to know how much time is passed
-                // since the last frame; that's why we pass along a Delta time `dt`
-                // variable (expressed in milliseconds)
-                var dt = Date.now() - last;
-                callback(dt);
-                last = Date.now();
-                requestAnimationFrame(loop);
-            }
-            requestAnimationFrame(loop);
-        }
-
-        function camvas(callback) {
-            var self = this
-            this.callback = callback
+        function camvas() {
             if (isIosApp) {
-                console.log("Chegouuuu aqui ->  1");
-                // self.createLoop()
+                cameraIosPreview.style.display = "inline";
                 let options = {
+                    // canvas: {
+                    // 	width: 640,
+                    // 	height: 480
+                    // },
+                    // capture: {
+                    // 	width: 640,
+                    // 	height: 480
+                    // },
                     use: 'file',
                     fps: 15,
                     hasThumbnail: false,
                     cameraFacing: "front",
                     onAfterDraw: function (frame) {
-                        canvasPreview.style.width = "inherit";
-                        canvasPreview.style.height = "110px";
+                        cameraIosPreview.style.width = "150px";
+                        cameraIosPreview.style.height = "inherit";
                         handleCameraSize();
                     }
                 };
                 window.plugin.CanvasCamera.start(options);
-                console.log("Chegouuuu aqui -> 2")
-                canvasPreview.style.width = "inherit";
-                canvasPreview.style.height = "110px";
-                createLoop(callback);
-                // console.log("Chegouuuu aqui ->  3");
+                createLoop();
+                updateFacePreview();
             } else {
 
+                cameraPreview.autoplay = 1;
+                cameraPreview.style.display = "inline";
                 // The callback happens when we are starting to stream the video.
                 navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then(function (stream) {
                     // Yay, now our webcam input is treated as a normal video and
@@ -124,7 +98,8 @@
                     cameraPreview.srcObject = stream
                     handleCameraSize();
                     // Let's start drawing the canvas!
-                    createLoop(callback)
+                    createLoop();
+                    updateFacePreview();
                 }, function (err) {
                     throw err
                 })
@@ -132,103 +107,166 @@
         }
 
         async function handleCameraSize() {
+            height = cameraIosPreview.height;
+            width = cameraIosPreview.width;
+            let maxSize = Math.max(width, height);
+            scale = 90 / maxSize;
+
             if (!isIosApp) {
                 await new Promise(
                     resolve => (this.cameraPreview.onloadedmetadata = resolve)
                 );
-                this.canvasPreview.width = this.cameraPreview.videoWidth;
-                this.canvasPreview.height = this.cameraPreview.videoHeight;
+                this.cameraIosPreview.width = this.cameraPreview.videoWidth;
+                this.cameraIosPreview.height = this.cameraPreview.videoHeight;
             }
-            height = canvasPreview.height;
-            width = canvasPreview.width;
 
-            let scale = 100 / Math.max(width, height);
-            heightMini = Math.floor(height * scale);
-            widthMini = Math.floor(width * scale);
-            if (!canvasPreviewMiniSize && widthMini > 0) {
-                canvasPreviewMiniSize = true;
-                canvasPreviewMini.width = widthMini;
-                canvasPreviewMini.height = heightMini;
+            if (faceBox.size == 0 && widthMini == 0) {
+                let minSize = Math.min(width, height);
+                faceBox.size = Math.floor(minSize * scale);
+
+                heightMini = Math.floor(height * scale);
+                widthMini = Math.floor(width * scale);
+
+                canvasPreview.width = widthMini;
+                canvasPreview.height = heightMini;
             }
+
         }
 
         function start() {
-            console.log("Apertou botao");
-            var face = {
-                size: 0,
-                center: {
-                    x: 0,
-                    y: 0
-                }
-            }
-            /*
-             (0) check whether we're already running face detection
-             */
             if (initialized)
                 return; // if yes, then do not initialize everything again
-            /*
-             (1) prepare the pico.js face detector
-             */
-            cordova.plugins.facedetector.initFaceDetector(30, "faceFinderPath", function (result) {
+
+            cordova.plugins.facedetector.initFaceDetector(30, "./facefinder", function (result) {
                 console.log('* cascade loaded');
             });
-            // /*
-            //  (2) get the drawing context on the canvas and define a function to transform an RGBA image to grayscale
-            //  */
-
-
-
 
             if (isIosApp) {
-                window.plugin.CanvasCamera.initialize(canvasPreview);
+                window.plugin.CanvasCamera.initialize(cameraIosPreview);
             }
-            /*
-             (3) this function is called each time a video frame becomes available
-             */
-            var countTest = 0;
-            var processfn = function (dt) {
-                // render the video frame to the canvas element and extract RGBA pixel data
-                // console.log("Chegouuuuu -> 1");
-                // var self = this;
-                if (!this.isIosApp) {
-                    // render the video frame to the canvas element and extract RGBA pixel data
-                    // console.log(typeof(cameraPreview))
-                    canvasPreviewCtx.drawImage(cameraPreview, 0, 0);
-                }
 
+            var mycamvas = new camvas();
 
-                countTest += 1;
-                if (countTest % 30 == 1 && widthMini > 0) {
-
-                    canvasPreviewMiniCtx.drawImage(
-                        canvasPreview,
-                        0, 0, width, height,
-                        0, 0, widthMini, heightMini
-                    );
-                    var rgba = canvasPreviewMiniCtx.getImageData(0, 0, widthMini, heightMini).data;
-                    // console.log(rgba);
-                    // cordova.plugins.facedetector.test1(rgba, widthMini, heightMini, function (result) {
-                    //     // console.log('* teste executado');
-                    // });
-
-                    cordova.plugins.facedetector.detections(rgba, widthMini, heightMini, 20, 300, function (result) {
-                        // console.log('* teste executado');
-                    });
-                    if (countTest > 1000) {
-                        countTest = 0;
-                    }
-                }
-                // var blob = new Blob(rgba);
-
-            }
-            /*
-             (4) instantiate camera handling (see https://github.com/cbrandolino/camvas)
-             */
-            var mycamvas = new camvas(processfn);
-            /*
-             (5) it seems that everything went well
-             */
             initialized = true;
+        }
+
+        function processfn() {
+
+
+            // countTest += 1;
+            if (widthMini > 0) {
+                var canvasPreviewCtx = canvasPreview.getContext("2d", { alpha: false });
+
+                canvasPreviewCtx.drawImage(
+                    isIosApp ? cameraIosPreview : cameraPreview,
+                    0, 0, width, height,
+                    0, 0, widthMini, heightMini
+                );
+                var rgba = canvasPreviewCtx.getImageData(0, 0, widthMini, heightMini).data;
+                // console.log(rgba);
+                // cordova.plugins.facedetector.test1(rgba, widthMini, heightMini, function (result) {
+                //     // console.log('* teste executado');
+                // });
+                let minSizeFace = widthMini * 0.3;
+                let maxSizeFace = widthMini * 1.3;
+                let iouthreshold = 0.2;
+                cordova.plugins.facedetector.detections(rgba, widthMini, heightMini, minSizeFace, maxSizeFace, iouthreshold, function (dets) {
+                    //detect unique face
+                    var greaterFace = Math.max.apply(
+                        Math,
+                        dets.map(function (o) {
+                            return o[2];
+                        })
+                    );
+                    var box = dets.find(function (element) {
+                        return element[2] == greaterFace && element[3] !== undefined;
+                    });
+                    // check the detection score
+                    // if it's above the threshold, draw it
+                    // (the constant 50.0 is empirical: other cascades might require a different one)
+                    if (box !== undefined) {
+
+                        console.log("chegou: " + box[3]);
+                    }
+                    if (box !== undefined) {
+                        canvasPreviewCtx.beginPath();
+                        canvasPreviewCtx.arc(box[1], box[0], box[2] / 2, 0, 2 * Math.PI, false);
+                        canvasPreviewCtx.lineWidth = 1;
+                        canvasPreviewCtx.strokeStyle = 'red';
+                        canvasPreviewCtx.stroke();
+
+                        faceBox = {
+                            x: _weightedMean(
+                                [faceBox.x, box[1] - box[2] / 2],
+                                [0.4, 0.1]
+                            ),
+                            y: _weightedMean(
+                                [faceBox.y, box[0] - box[2] / 2],
+                                [0.4, 0.1]
+                            ),
+                            size: _weightedMean(
+                                [faceBox.size, box[2]],
+                                [0.4, 0.1]
+                            )
+                        }
+                    }
+                    greaterFace = null;
+                    box = null;
+                });
+
+            }
+        }
+
+        var updateFacePreview = function () {
+            var loop = function () {
+                if (faceBox.x > 0) {
+                    var faceSizeOriginal = document.createElement('canvas');
+                    faceSizeOriginal.width = parseInt(faceBox.size / scale);
+                    faceSizeOriginal.height = parseInt(faceBox.size / scale);
+                    var faceSizeOriginalCtx = faceSizeOriginal.getContext("2d", { alpha: false });
+                    faceSizeOriginalCtx.drawImage(
+                        isIosApp ? cameraIosPreview : cameraPreview,
+                        parseInt(faceBox.x / scale),
+                        parseInt(faceBox.y / scale),
+                        parseInt(faceBox.size / scale),
+                        parseInt(faceBox.size / scale),
+                        0,
+                        0,
+                        parseInt(faceBox.size / scale),
+                        parseInt(faceBox.size / scale),
+                    );
+
+                    facePreviewCtx.drawImage(
+                        faceSizeOriginal,
+                        0, 0, faceSizeOriginal.width, faceSizeOriginal.height,
+                        0, 0, 400, 400
+                    );
+
+                    cameraIosPreviewTemp = null;
+                    faceSizeOriginal = null;
+                    faceSizeOriginalCtx = null;
+                    facePreview = null;
+                    delete faceSizeOriginalCtx;
+                    delete faceSizeOriginal;
+                    delete facePreview;
+                    delete cameraIosPreviewTemp;
+                }
+
+                requestAnimationFrame(loop);
+            }
+            requestAnimationFrame(loop);
+        }
+
+        function _sumArrayValues(values) {
+            return values.reduce((p, c) => p + c, 0);
+        }
+
+        function _weightedMean(factorsArray, weightsArray) {
+            return (
+                this._sumArrayValues(
+                    factorsArray.map((factor, index) => factor * weightsArray[index])
+                ) / this._sumArrayValues(weightsArray)
+            );
         }
     </script>
 </body>

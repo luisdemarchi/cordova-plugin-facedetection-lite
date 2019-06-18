@@ -21,6 +21,8 @@
 		var cameraIosPreview = document.getElementById("cameraIosPreview");
 		var canvasPreview = document.getElementById("canvasPreview");
 
+		var facePreviewCtx = document.getElementById("facePreview").getContext("2d", { alpha: false });
+
 		canvasPreview.style.width = "150px";
 		canvasPreview.style.height = "inherit";
 		var height = 0;
@@ -64,6 +66,14 @@
 			if (isIosApp) {
 				cameraIosPreview.style.display = "inline";
 				let options = {
+					// canvas: {
+					// 	width: 640,
+					// 	height: 480
+					// },
+					// capture: {
+					// 	width: 640,
+					// 	height: 480
+					// },
 					use: 'file',
 					fps: 15,
 					hasThumbnail: false,
@@ -207,45 +217,45 @@
 			}
 		}
 
-		var updateFacePreview = function () {
-			var loop = function () {
-				if (faceBox.x > 0) {
-					var facePreview = document.getElementById("facePreview");
-					var facePreviewCtx = facePreview.getContext("2d", { alpha: false });
-					facePreviewCtx.beginPath();
-					facePreviewCtx.clearRect(0, 0, 400, 400);
-					// console.log("x: " + parseInt(faceBox.x / scale) + " y: " + parseInt(faceBox.y / scale) + " size: " + parseInt(faceBox.size / scale));
-					facePreviewCtx.drawImage(
-						isIosApp ? cameraIosPreview : cameraPreview,
-						parseInt(faceBox.x / scale),
-						parseInt(faceBox.y / scale),
-						parseInt(faceBox.size / scale),
-						parseInt(faceBox.size / scale),
-						0,
-						0,
-						400,
-						400
-					);
-					delete facePreviewCtx;
-					delete facePreview;
-					delete cameraIosPreviewTemp;
-					cameraIosPreviewTemp = null;
-					facePreviewCtx = null;
-					facePreview = null;
+var updateFacePreview = function () {
+	var loop = function () {
+		if (faceBox.x > 0) {
+			var faceSizeOriginal = document.createElement('canvas');
+			faceSizeOriginal.width = parseInt(faceBox.size / scale);
+			faceSizeOriginal.height = parseInt(faceBox.size / scale);
+			var faceSizeOriginalCtx = faceSizeOriginal.getContext("2d", { alpha: false });
+			faceSizeOriginalCtx.drawImage(
+				isIosApp ? cameraIosPreview : cameraPreview,
+				parseInt(faceBox.x / scale),
+				parseInt(faceBox.y / scale),
+				parseInt(faceBox.size / scale),
+				parseInt(faceBox.size / scale),
+				0,
+				0,
+				parseInt(faceBox.size / scale),
+				parseInt(faceBox.size / scale),
+			);
 
+			facePreviewCtx.drawImage(
+				faceSizeOriginal,
+				0, 0, faceSizeOriginal.width, faceSizeOriginal.height,
+				0, 0, 400, 400
+			);
 
-				}
-
-				requestAnimationFrame(loop);
-			}
-			requestAnimationFrame(loop);
-
-
-
-			// window.setTimeout(function () {
-			//     updateFacePreview();
-			// }, 100);
+			cameraIosPreviewTemp = null;
+			faceSizeOriginal = null;
+			faceSizeOriginalCtx = null;
+			facePreview = null;
+			delete faceSizeOriginalCtx;
+			delete faceSizeOriginal;
+			delete facePreview;
+			delete cameraIosPreviewTemp;
 		}
+
+		requestAnimationFrame(loop);
+	}
+	requestAnimationFrame(loop);
+}
 
 		function _sumArrayValues(values) {
 			return values.reduce((p, c) => p + c, 0);

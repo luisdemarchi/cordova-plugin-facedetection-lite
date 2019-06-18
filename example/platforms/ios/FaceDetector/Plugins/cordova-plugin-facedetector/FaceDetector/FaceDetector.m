@@ -116,7 +116,7 @@
                              );
         
         int nmemslots = 5;
-        int* slot = malloc(sizeof(int*) * 1);
+        int* slot[1];
         slot[0] = 0;
         
         UInt32* counts = malloc(sizeof(UInt32) * nmemslots);
@@ -144,10 +144,18 @@
         
 //        free(dets);
 //        free(rawData);
-        free(slot);
+//        free(slot);
+        counts = NULL;
         free(counts);
+        for(int i=0; i < totalPixels; ++i) {
+            rawData[i] = 0;
+        }
+        data = nil;
+        rgbaDict = nil;
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:detectionArray];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        detectionArray = nil;
+        
     }else{
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:@[]];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
