@@ -21,7 +21,7 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"FaceDetector\"><param name=\"ios-package\" value=\"FaceDetector\" /></feature>",
+              "xml": "<feature name=\"FaceDetection\"><param name=\"ios-package\" value=\"FaceDetection\" /></feature>",
               "count": 1
             }
           ]
@@ -57,7 +57,7 @@
     "cordova-plugin-broadcaster": {
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
-    "cordova-plugin-facedetector": {
+    "cordova-plugin-facedetection": {
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     }
   },
@@ -89,11 +89,11 @@
       ]
     },
     {
-      "id": "cordova-plugin-facedetector.FaceDetector",
-      "file": "plugins/cordova-plugin-facedetector/www/FaceDetector.js",
-      "pluginId": "cordova-plugin-facedetector",
+      "id": "cordova-plugin-facedetection.FaceDetection",
+      "file": "plugins/cordova-plugin-facedetection/www/FaceDetection.js",
+      "pluginId": "cordova-plugin-facedetection",
       "clobbers": [
-        "cordova.plugins.facedetector"
+        "cordova.plugins.facedetection"
       ]
     }
   ],
@@ -103,6 +103,6 @@
     "com.virtuoworks.cordova-plugin-canvascamera": "1.1.8",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-broadcaster": "3.1.1",
-    "cordova-plugin-facedetector": "1.0.0"
+    "cordova-plugin-facedetection": "1.0.0"
   }
 }

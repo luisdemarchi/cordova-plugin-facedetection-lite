@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="br.com.employer.1" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>FaceDetector</name>
+    <name>FaceDetection</name>
     <description>
-        A sample Apache Cordova application for Face Detector.
+        A sample Apache Cordova application for Face Detection.
     </description>
     <author email="luis@luisdemarchi.com.br" href="http://luisdemarchi.com.br">
         Luis De Marchi

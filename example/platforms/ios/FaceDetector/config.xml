@@ -29,10 +29,10 @@
     <feature name="broadcaster">
         <param name="ios-package" value="CDVBroadcaster" />
     </feature>
-    <feature name="FaceDetector">
-        <param name="ios-package" value="FaceDetector" />
+    <feature name="FaceDetection">
+        <param name="ios-package" value="FaceDetection" />
     </feature>
-    <name>FaceDetector</name>
+    <name>FaceDetection</name>
     <description>
         A sample Apache Cordova application.
     </description>

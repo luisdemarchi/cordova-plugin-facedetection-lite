@@ -38,23 +38,23 @@ module.exports = [
         "runs": true
     },
     {
-        "file": "plugins/cordova-plugin-facedetector/www/FaceDetector.js",
-        "id": "cordova-plugin-facedetector.FaceDetector",
-        "pluginId": "cordova-plugin-facedetector",
+        "file": "plugins/cordova-plugin-facedetection/www/FaceDetection.js",
+        "id": "cordova-plugin-facedetection.FaceDetection",
+        "pluginId": "cordova-plugin-facedetection",
         "clobbers": [
-            "cordova.plugins.facedetector"
+            "cordova.plugins.facedetection"
         ]
     },
     {
-        "file": "plugins/cordova-plugin-facedetector/src/browser/FaceDetectorProxy.js",
-        "id": "cordova-plugin-facedetector.FaceDetectorProxy",
-        "pluginId": "cordova-plugin-facedetector",
+        "file": "plugins/cordova-plugin-facedetection/src/browser/FaceDetectionProxy.js",
+        "id": "cordova-plugin-facedetection.FaceDetectionProxy",
+        "pluginId": "cordova-plugin-facedetection",
         "runs": true
     },
     {
-        "file": "plugins/cordova-plugin-facedetector/src/browser/pico.min.js",
-        "id": "cordova-plugin-facedetector.Pico",
-        "pluginId": "cordova-plugin-facedetector",
+        "file": "plugins/cordova-plugin-facedetection/src/browser/pico.min.js",
+        "id": "cordova-plugin-facedetection.Pico",
+        "pluginId": "cordova-plugin-facedetection",
         "merges": [
             "Pico"
         ]
@@ -68,7 +68,7 @@ module.exports.metadata =
     "com.virtuoworks.cordova-plugin-canvascamera": "1.1.8",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-broadcaster": "3.1.1",
-    "cordova-plugin-facedetector": "1.0.0"
+    "cordova-plugin-facedetection": "1.0.0"
 }
 // BOTTOM OF METADATA
 });

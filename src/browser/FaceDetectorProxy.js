@@ -1,7 +1,7 @@
 var faceFrameMemory;
 var faceFinderClassifyRegion;
 
-function initFaceDetector(success, error, args) {
+function initFaceDetection(success, error, args) {
     // { sizeFrameMemory: sizeFrameMemory, faceFinderPath: faceFinderPath }
     var self = this;
     var data = args[0];
@@ -54,8 +54,8 @@ function _convertRgbaToGrayscale(rgba, nrows, ncols) {
 }
 
 module.exports = {
-    initFaceDetector: initFaceDetector,
+    initFaceDetection: initFaceDetection,
     detections: detections
 };
 
-cordovaProxy.add("FaceDetector", module.exports);
+cordovaProxy.add("FaceDetection", module.exports);

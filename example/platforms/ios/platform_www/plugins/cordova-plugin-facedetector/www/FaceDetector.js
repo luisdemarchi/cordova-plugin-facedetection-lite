@@ -1,4 +1,4 @@
-cordova.define("cordova-plugin-facedetector.FaceDetector", function(require, exports, module) {
+cordova.define("cordova-plugin-facedetection.FaceDetection", function(require, exports, module) {
 var exec = require('cordova/exec');
 
 var exec = require('cordova/exec');
@@ -7,7 +7,7 @@ var faceFrameMemory;
 var faceFinderClassifyRegion;
 var initialized = false;
 
-function initFaceDetector(sizeFrameMemory, faceFinderPath, result) {
+function initFaceDetection(sizeFrameMemory, faceFinderPath, result) {
     console.log("I0 -> 1");
 
     if (initialized) {
@@ -25,7 +25,7 @@ function initFaceDetector(sizeFrameMemory, faceFinderPath, result) {
         result(true);
     }
 
-    exec(callback, callback, "FaceDetector", "initFaceDetector", [{ sizeFrameMemory: sizeFrameMemory, faceFinderPath: faceFinderPath }]);
+    exec(callback, callback, "FaceDetection", "initFaceDetection", [{ sizeFrameMemory: sizeFrameMemory, faceFinderPath: faceFinderPath }]);
 };
 
 function detections(rgba, height, width, minSizeFace, maxSizeFace, iouthreshold, result) {
@@ -42,14 +42,14 @@ function detections(rgba, height, width, minSizeFace, maxSizeFace, iouthreshold,
 
     var detections = function (_dets) {
         var dets = faceFrameMemory(_dets);
-        exec(cluster, cluster, "FaceDetector", "cluster", [{ iouthreshold: iouthreshold, detections: dets }]);
+        exec(cluster, cluster, "FaceDetection", "cluster", [{ iouthreshold: iouthreshold, detections: dets }]);
     }
 
-    exec(detections, detections, "FaceDetector", "detections", [{ rgba: rgba, height: height, width: width, params: params, faceFinderClassifyRegion: faceFinderClassifyRegion }]);
+    exec(detections, detections, "FaceDetection", "detections", [{ rgba: rgba, height: height, width: width, params: params, faceFinderClassifyRegion: faceFinderClassifyRegion }]);
 }
 
 module.exports = {
-    initFaceDetector: initFaceDetector,
+    initFaceDetection: initFaceDetection,
     detections: detections
 };
 });

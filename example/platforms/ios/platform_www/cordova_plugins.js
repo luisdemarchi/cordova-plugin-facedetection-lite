@@ -26,11 +26,11 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "cordova-plugin-facedetector.FaceDetector",
-      "file": "plugins/cordova-plugin-facedetector/www/FaceDetector.js",
-      "pluginId": "cordova-plugin-facedetector",
+      "id": "cordova-plugin-facedetection.FaceDetection",
+      "file": "plugins/cordova-plugin-facedetection/www/FaceDetection.js",
+      "pluginId": "cordova-plugin-facedetection",
       "clobbers": [
-        "cordova.plugins.facedetector"
+        "cordova.plugins.facedetection"
       ]
     }
   ];
@@ -40,6 +40,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "com.virtuoworks.cordova-plugin-canvascamera": "1.1.8",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-broadcaster": "3.1.1",
-    "cordova-plugin-facedetector": "1.0.0"
+    "cordova-plugin-facedetection": "1.0.0"
   };
 });

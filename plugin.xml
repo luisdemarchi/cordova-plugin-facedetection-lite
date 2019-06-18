@@ -1,47 +1,47 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-plugin-facedetector" version="0.1.0" 
+<plugin id="cordova-plugin-facedetection" version="0.1.0" 
 	xmlns="http://apache.org/cordova/ns/plugins/1.0" 
 	xmlns:android="http://schemas.android.com/apk/res/android">
-	<name>FaceDetector</name>
+	<name>FaceDetection</name>
 	<dependency id="cordova-plugin-broadcaster" version="3.1.1" />
-	<js-module name="FaceDetector" src="www/FaceDetector.js">
-		<clobbers target="cordova.plugins.facedetector" />
+	<js-module name="FaceDetection" src="www/FaceDetection.js">
+		<clobbers target="cordova.plugins.facedetection" />
 	</js-module>
 
 	<!-- ios -->
 	<platform name="ios">
 		<config-file parent="/*" target="config.xml">
-			<feature name="FaceDetector">
-				<param name="ios-package" value="FaceDetector" />
+			<feature name="FaceDetection">
+				<param name="ios-package" value="FaceDetection" />
 			</feature>
 		</config-file>
 		<config-file platform="ios" target="*-Info.plist" parent="NSCameraUsageDescription" overwrite="true">
 			<string>Allow the app to use your camera</string>
 		</config-file>
-		<source-file src="src/ios/FaceDetector.m" target-dir="FaceDetector" />
+		<source-file src="src/ios/FaceDetection.m" target-dir="FaceDetection" />
 		<!-- Compiled C libraries -->
 		<source-file src="src/ios/libs/libpicornt.a" framework="true" />
 		<!-- C header files -->
-		<header-file src="src/ios/libs/headers/libpicornt.h" target-dir="FaceDetector"/>
-		<header-file src="src/ios/libs/headers/hello.h" target-dir="FaceDetector"/>
+		<header-file src="src/ios/libs/headers/libpicornt.h" target-dir="FaceDetection"/>
+		<header-file src="src/ios/libs/headers/hello.h" target-dir="FaceDetection"/>
 	</platform>
 
 	<!-- android -->
 	<platform name="android">
 		<config-file parent="/*" target="res/xml/config.xml">
-			<feature name="FaceDetector">
-				<param name="android-package" value="cordova.plugin.facedetector.FaceDetector" />
+			<feature name="FaceDetection">
+				<param name="android-package" value="cordova.plugin.facedetection.FaceDetection" />
 			</feature>
 		</config-file>
 		<config-file parent="/*" target="AndroidManifest.xml">
 			<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 		</config-file>
-		<source-file src="src/android/FaceDetector.java" target-dir="src/native/webview/FaceDetector" />
+		<source-file src="src/android/FaceDetection.java" target-dir="src/native/webview/FaceDetection" />
 	</platform>
 
 	<!-- browser -->
 	<platform name="browser">
-		<js-module src="src/browser/FaceDetectorProxy.js" name="FaceDetectorProxy">
+		<js-module src="src/browser/FaceDetectionProxy.js" name="FaceDetectionProxy">
 			<runs />
 		</js-module>
 		<js-module src="src/browser/pico.min.js" name="Pico">

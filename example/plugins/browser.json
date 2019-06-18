@@ -16,7 +16,7 @@
     "cordova-plugin-device": {
       "PACKAGE_NAME": "br.com.employer.1"
     },
-    "cordova-plugin-facedetector": {
+    "cordova-plugin-facedetection": {
       "PACKAGE_NAME": "br.com.employer.1"
     }
   },

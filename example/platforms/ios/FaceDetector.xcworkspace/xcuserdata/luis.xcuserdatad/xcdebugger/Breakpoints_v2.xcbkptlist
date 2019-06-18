@@ -9,7 +9,7 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FaceDetector/Plugins/cordova-plugin-facedetector/FaceDetector/FaceDetector.m"
+            filePath = "FaceDetection/Plugins/cordova-plugin-facedetection/FaceDetection/FaceDetection.m"
             timestampString = "582567729.013109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"

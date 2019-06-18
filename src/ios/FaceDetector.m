@@ -1,9 +1,9 @@
-/********* FaceDetector.m Cordova Plugin Implementation *******/
+/********* FaceDetection.m Cordova Plugin Implementation *******/
 #import <Foundation/Foundation.h>
 #import <Cordova/CDV.h>
 #include "libpicornt.h"
 
-@interface FaceDetector : CDVPlugin {
+@interface FaceDetection : CDVPlugin {
     bool initialized;
     int faceFrameMemory;
     UInt8* faceFinder;
@@ -15,7 +15,7 @@
 
 @end
 
-@implementation FaceDetector
+@implementation FaceDetection
 
 - (void) test1:(CDVInvokedUrlCommand*)command{
     NSDictionary* data = [command argumentAtIndex:0];
@@ -50,7 +50,7 @@
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
-- (void)initFaceDetector:(CDVInvokedUrlCommand*)command{
+- (void)initFaceDetection:(CDVInvokedUrlCommand*)command{
 //    NSDictionary* data = [command argumentAtIndex:0];
     if (initialized) {
         [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];

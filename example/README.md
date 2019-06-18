@@ -1,6 +1,6 @@
-# FaceDetector 
+# FaceDetection 
 
-This application is a basic example for detecting single face in real time by the device camera, using the FaceDetector plugin.
+This application is a basic example for detecting single face in real time by the device camera, using the FaceDetection plugin.
 App Language: HTML - JavaScript
 - iOS: Objective-C & C
 - Android: Java & C

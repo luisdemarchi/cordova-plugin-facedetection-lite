@@ -47,10 +47,10 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-facedetector": {
+  "cordova-plugin-facedetection": {
     "source": {
       "type": "local",
-      "path": "/Volumes/MacHD/luis/git/employer/tests/example/node_modules/cordova-plugin-facedetector"
+      "path": "/Volumes/MacHD/luis/git/employer/tests/example/node_modules/cordova-plugin-facedetection"
     },
     "is_top_level": true,
     "variables": {}

@@ -1,8 +1,8 @@
 {
   "background_color": "#FFF",
   "display": "standalone",
-  "name": "FaceDetector",
-  "short_name": "FaceDetector",
+  "name": "FaceDetection",
+  "short_name": "FaceDetection",
   "version": "br.com.employer.1",
   "description": "A sample Apache Cordova application.",
   "author": "Luis De Marchi",

@@ -3,19 +3,19 @@ var faceFinderClassifyRegion;
 var initialized = false;
 
 function test1(rgba, width, height, result) {
-    exec(result, result, "FaceDetector", "test1", [{ rgba: rgba, width: width, height: height }]);
+    exec(result, result, "FaceDetection", "test1", [{ rgba: rgba, width: width, height: height }]);
 }
 
-function initFaceDetector(sizeFrameMemory, faceFinderPath, result) {
-    exec(result, result, "FaceDetector", "initFaceDetector", [{ sizeFrameMemory: sizeFrameMemory, faceFinderPath: faceFinderPath }]);
+function initFaceDetection(sizeFrameMemory, faceFinderPath, result) {
+    exec(result, result, "FaceDetection", "initFaceDetection", [{ sizeFrameMemory: sizeFrameMemory, faceFinderPath: faceFinderPath }]);
 };
 
 function detections(rgba, width, height, minSizeFace, maxSizeFace, iouthreshold, result) {
-    exec(result, result, "FaceDetector", "detections", [{ rgba: rgba, width: width, height: height, minSizeFace: minSizeFace, maxSizeFace: maxSizeFace, iouthreshold: iouthreshold }]);
+    exec(result, result, "FaceDetection", "detections", [{ rgba: rgba, width: width, height: height, minSizeFace: minSizeFace, maxSizeFace: maxSizeFace, iouthreshold: iouthreshold }]);
 }
 
 module.exports = {
-    initFaceDetector: initFaceDetector,
+    initFaceDetection: initFaceDetection,
     detections: detections,
     test1: test1
 };

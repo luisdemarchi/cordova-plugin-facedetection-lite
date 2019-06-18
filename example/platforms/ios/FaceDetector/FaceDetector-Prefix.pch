@@ -17,7 +17,7 @@
  under the License.
  */
 //
-// Prefix header for all source files of the 'FaceDetector' target in the 'FaceDetector' project
+// Prefix header for all source files of the 'FaceDetection' target in the 'FaceDetection' project
 //
 
 #ifdef __OBJC__

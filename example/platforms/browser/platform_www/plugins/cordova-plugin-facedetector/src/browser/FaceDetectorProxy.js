@@ -1,6 +1,6 @@
-cordova.define("cordova-plugin-facedetector.FaceDetectorProxy", function(require, exports, module) { var cordovaProxy = require("cordova/exec/proxy");
+cordova.define("cordova-plugin-facedetection.FaceDetectionProxy", function(require, exports, module) { var cordovaProxy = require("cordova/exec/proxy");
 
-function initFaceDetector(success, error, data) {
+function initFaceDetection(success, error, data) {
     // { sizeFrameMemory: sizeFrameMemory, faceFinderPath: faceFinderPath }
     var self = this;
     let imported = document.createElement('script');
@@ -53,10 +53,10 @@ function _convertRgbaToGrayscale(rgba, nrows, ncols) {
 }
 
 module.exports = {
-    initFaceDetector: initFaceDetector,
+    initFaceDetection: initFaceDetection,
     detections: detections,
     cluster: cluster
 };
 
-cordovaProxy.add("FaceDetector", module.exports);
+cordovaProxy.add("FaceDetection", module.exports);
 });

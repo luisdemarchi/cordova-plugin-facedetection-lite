@@ -1,8 +1,8 @@
 {
-  "name": "br.com.luisdemarchi.facedetector",
-  "displayName": "FaceDetector",
+  "name": "br.com.luisdemarchi.facedetection",
+  "displayName": "FaceDetection",
   "version": "0.1.0",
-  "description": "A sample Apache Cordova application example of FaceDetector.",
+  "description": "A sample Apache Cordova application example of FaceDetection.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,7 +19,7 @@
     "cordova-plugin-broadcaster": "^3.1.1",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-device": "^2.0.2",
-    "cordova-plugin-facedetector": "file:../../plugins/cordova-plugin-facedetector"
+    "cordova-plugin-facedetection": "file:../../plugins/cordova-plugin-facedetection"
   },
   "devDependencies": {
     "cordova-plugin-whitelist": "^1.3.3"
@@ -31,7 +31,7 @@
         "CAMERA_USAGE_DESCRIPTION": "Display video preview"
       },
       "cordova-plugin-device": {},
-      "cordova-plugin-facedetector": {}
+      "cordova-plugin-facedetection": {}
     },
     "platforms": [
       "browser",

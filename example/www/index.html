@@ -137,7 +137,7 @@
             if (initialized)
                 return; // if yes, then do not initialize everything again
 
-            cordova.plugins.facedetector.initFaceDetector(30, "./facefinder", function (result) {
+            cordova.plugins.facedetection.initFaceDetection(30, "./facefinder", function (result) {
                 console.log('* cascade loaded');
             });
 
@@ -164,13 +164,13 @@
                 );
                 var rgba = canvasPreviewCtx.getImageData(0, 0, widthMini, heightMini).data;
                 // console.log(rgba);
-                // cordova.plugins.facedetector.test1(rgba, widthMini, heightMini, function (result) {
+                // cordova.plugins.facedetection.test1(rgba, widthMini, heightMini, function (result) {
                 //     // console.log('* teste executado');
                 // });
                 let minSizeFace = widthMini * 0.3;
                 let maxSizeFace = widthMini * 1.3;
                 let iouthreshold = 0.2;
-                cordova.plugins.facedetector.detections(rgba, widthMini, heightMini, minSizeFace, maxSizeFace, iouthreshold, function (dets) {
+                cordova.plugins.facedetection.detections(rgba, widthMini, heightMini, minSizeFace, maxSizeFace, iouthreshold, function (dets) {
                     //detect unique face
                     var greaterFace = Math.max.apply(
                         Math,

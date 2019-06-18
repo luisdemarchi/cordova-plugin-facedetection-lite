@@ -1,9 +1,9 @@
 {
-  "name": "cordova-plugin-facedetector",
+  "name": "cordova-plugin-facedetection",
   "version": "0.1.0",
   "description": "A face detection library in 200 lines of JavaScript for Browser and C for native mobile.",
   "cordova": {
-    "id": "cordova-plugin-facedetector",
+    "id": "cordova-plugin-facedetection",
     "platforms": [
       "ios",
       "android",
@@ -12,11 +12,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com:employer/cordova-plugin-facedetector.git"
+    "url": "git+ssh://git@gitlab.com:employer/cordova-plugin-facedetection.git"
   },
   "keywords": [
     "face",
-    "detector",
+    "detection",
     "reconhecer",
     "ecosystem:cordova",
     "cordova-ios",
