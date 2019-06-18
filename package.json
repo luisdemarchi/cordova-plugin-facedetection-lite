@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-facedetection-lite",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A face detection library in 200 lines of JavaScript for Browser and C for native mobile.",
   "cordova": {
     "id": "cordova-plugin-facedetection-lite",
