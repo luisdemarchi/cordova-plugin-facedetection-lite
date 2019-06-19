@@ -1,9 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-plugin-facedetection-lite" version="0.1.1" 
+<plugin id="cordova-plugin-facedetection-lite" version="0.1.2" 
 	xmlns="http://apache.org/cordova/ns/plugins/1.0" 
 	xmlns:android="http://schemas.android.com/apk/res/android">
 	<name>FaceDetection-Lite</name>
-	<dependency id="cordova-plugin-broadcaster" version="3.1.1" />
 	<js-module name="FaceDetection-Lite" src="www/FaceDetection.js">
 		<clobbers target="cordova.plugins.facedetection" />
 	</js-module>
@@ -12,7 +11,7 @@
 	<platform name="ios">
 		<config-file parent="/*" target="config.xml">
 			<feature name="FaceDetection-Lite">
-				<param name="ios-package" value="FaceDetection-Lite" />
+				<param name="ios-package" value="FaceDetection" />
 			</feature>
 		</config-file>
 		<config-file platform="ios" target="*-Info.plist" parent="NSCameraUsageDescription" overwrite="true">
