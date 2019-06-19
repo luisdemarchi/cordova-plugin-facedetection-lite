@@ -12,7 +12,7 @@
 	<platform name="ios">
 		<config-file parent="/*" target="config.xml">
 			<feature name="FaceDetection-Lite">
-				<param name="ios-package" value="FaceDetection-Lite" />
+				<param name="ios-package" value="FaceDetection" />
 			</feature>
 		</config-file>
 		<config-file platform="ios" target="*-Info.plist" parent="NSCameraUsageDescription" overwrite="true">

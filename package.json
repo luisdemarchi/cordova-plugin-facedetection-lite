@@ -12,12 +12,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com:employer/cordova-plugin-facedetection-lite.git"
+    "url": "git+git@github.com:luisdemarchi/cordova-plugin-facedetection-lite.git"
   },
   "keywords": [
+    "facedetection",
     "face",
     "detection",
-    "reconhecer",
+    "detecção",
     "ecosystem:cordova",
     "cordova-ios",
     "cordova-android",
