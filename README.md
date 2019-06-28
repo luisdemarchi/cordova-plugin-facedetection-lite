@@ -9,8 +9,12 @@ This plugin implementation of the method described in [2013 by Markuš et al](ht
 - iPhone 6 - iOS 11
 - iPhone 6s - iOS 12
 
+PS: For older smartphones, it is ideal that each frame analyzed has a maximum height and width of 60 pixels and the processing loop runs every 100 milliseconds or more. In the sample project this was implemented.
+
 # Installation
-TODO
+```
+cordova plugins add cordova-plugin-facedetection-lite
+```
 
 # Methods
 TODO
@@ -31,10 +35,13 @@ TODO
 </tr>
 </table>
 
-# Recompiling libraries
+# Development
+If you intend to do some improvement in the project, follow some instructions, such as compiling library in the C language.
+
+## Recompiling libraries
 If you modify the C source files, be sure to re-build the compiled libraries.
 
-## Android
+#### Android
 
 You can re-build the `libpicornt.so` binaries using the ndk-build script.
 
@@ -49,7 +56,7 @@ To do so:
 - Open terminal in plugin root folder
 - Run `./compile-android` (`compile-android.cmd` on Windows)
     
-## iOS
+#### iOS
 If you modify the C source code in `common/picornt/` you'll need to rebuild the static library and headers in `src/ios/libs`.
 
 - Open terminal in plugin root folder
