@@ -86,8 +86,6 @@ Thumbs.db
 *.class
 *.dll
 *.exe
-*.o
-*.so
 
 # ignore packaged files
 *.7z
