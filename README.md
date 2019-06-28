@@ -26,11 +26,11 @@ TODO
 <tr>
 <td>
 <h3>iOS</h3>
-<img src="https://github.com/luisdemarchi/example-cordova-facedetection/raw/7bb36c3463826f0237705dac6a4c71f2a50f1fd6/images/demo-ios.gif"  height="300">
+<img src="https://github.com/luisdemarchi/cordova-plugin-facedetection-lite/raw/a3dd61fa8f7de022b165accaa12d788758698ba3/images/demo-ios.gif"  height="300">
 </td>
 <td>
 <h3>Browser</h3>
-<img src="https://github.com/luisdemarchi/example-cordova-facedetection/raw/7bb36c3463826f0237705dac6a4c71f2a50f1fd6/images/demo-browser.gif" height="300">
+<img src="https://github.com/luisdemarchi/cordova-plugin-facedetection-lite/raw/a3dd61fa8f7de022b165accaa12d788758698ba3/images/demo-browser.gif" height="300">
 </td>
 </tr>
 </table>
