@@ -48,6 +48,9 @@
 ~*
 
 .DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store
 
 # ignore node/grunt dependency directories
 node_modules/
@@ -83,8 +86,6 @@ Thumbs.db
 *.class
 *.dll
 *.exe
-*.o
-*.so
 
 # ignore packaged files
 *.7z
