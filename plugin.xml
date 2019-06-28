@@ -1,11 +1,32 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-plugin-facedetection-lite" version="0.1.2" 
+<plugin id="cordova-plugin-facedetection-lite" version="0.3.0" 
 	xmlns="http://apache.org/cordova/ns/plugins/1.0" 
 	xmlns:android="http://schemas.android.com/apk/res/android">
 	<name>FaceDetection-Lite</name>
+	<description>A face detection offline with a few lines of code. Was designed to run on old smartphones.</description>
+	<keywords>cordova,phonegap,ecosystem:cordova,cordova-android,cordova-ios,cordova-browser,android,ios,browser,ionic,face,facial,detection,face-detection,lite</keywords>
+	<repo>https://github.com/luisdemarchi/cordova-plugin-facedetection-lite.git</repo>
+	<issue>https://github.com/luisdemarchi/cordova-plugin-facedetection-lite/issues</issue>
+
+	<engines>
+		<engine name="cordova" version=">=3.4.0"/>
+	</engines>
+
+	<asset src="www/FaceDetection.js" target="js/facedetection.js"/>
+
 	<js-module name="FaceDetection-Lite" src="www/FaceDetection.js">
-		<clobbers target="cordova.plugins.facedetection" />
+		<clobbers target="facedetection" />
 	</js-module>
+
+	<!-- browser -->
+	<platform name="browser">
+		<js-module src="src/browser/FaceDetectionProxy.js" name="FaceDetectionProxy">
+			<runs />
+		</js-module>
+		<js-module src="src/browser/pico.min.js" name="Pico">
+			<merges target="Pico" />
+		</js-module>
+	</platform>
 
 	<!-- ios -->
 	<platform name="ios">
@@ -22,29 +43,44 @@
 		<source-file src="src/ios/libs/libpicornt.a" framework="true" />
 		<!-- C header files -->
 		<header-file src="src/ios/libs/headers/libpicornt.h" target-dir="FaceDetection-Lite"/>
-		<header-file src="src/ios/libs/headers/hello.h" target-dir="FaceDetection-Lite"/>
 	</platform>
 
 	<!-- android -->
 	<platform name="android">
-		<config-file parent="/*" target="res/xml/config.xml">
+		<config-file target="app/src/main/res/xml/config.xml" parent="/*">
 			<feature name="FaceDetection-Lite">
-				<param name="android-package" value="cordova.plugin.facedetection-lite.FaceDetection" />
+				<param name="android-package" value="br.com.luisdemarchi.FaceDetectionPlugin"/>
 			</feature>
 		</config-file>
-		<config-file parent="/*" target="AndroidManifest.xml">
-			<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-		</config-file>
-		<source-file src="src/android/FaceDetection.java" target-dir="src/native/webview/FaceDetection-Lite" />
-	</platform>
 
-	<!-- browser -->
-	<platform name="browser">
-		<js-module src="src/browser/FaceDetectionProxy.js" name="FaceDetectionProxy">
-			<runs />
-		</js-module>
-		<js-module src="src/browser/pico.min.js" name="Pico">
-			<merges target="Pico" />
-		</js-module>
+		<!-- Java plugin API -->
+		<source-file src="src/android/FaceDetectionPlugin.java" target-dir="app/src/main/java/br/com/luisdemarchi/"/>
+		<source-file src="src/android/FaceDetectionJni.java" target-dir="app/src/main/java/br/com/luisdemarchi/" />
+
+		<!-- PRODUCTION - comment out source files below for debugging -->
+		<!-- Compiled C libraries -->
+		<source-file src="src/android/libs/arm64-v8a/libpicornt.so" target-dir="app/src/main/jniLibs/arm64-v8a/" />
+		<source-file src="src/android/libs/armeabi-v7a/libpicornt.so" target-dir="app/src/main/jniLibs/armeabi-v7a/" />
+		<source-file src="src/android/libs/x86/libpicornt.so" target-dir="app/src/main/jniLibs/x86/" />
+		<source-file src="src/android/libs/x86_64/libpicornt.so" target-dir="app/src/main/jniLibs/x86_64/" />
+		<!-- END PRODUCTION -->
+
+		<!-- DEBUG - these files are not needed for production -->
+		<!-- Custom gradle file to setup NDK for debugging -->
+		<source-file src="src/android/build-extras.gradle" target-dir="."/>
+
+		<!-- NDK Make file for source references for C debugging -->
+		<source-file src="src/android/jni/Android.mk" target-dir="app/src/main/java/c/android/jni/"/>
+
+		<!-- C source files -->
+		<!-- DEBUG -->
+		<!-- 
+		<source-file src="src/android/jni/FaceDetectionJni.h" target-dir="app/src/main/java/c/android/jni/"/>
+		<source-file src="src/android/jni/FaceDetectionJni.c" target-dir="app/src/main/java/c/android/jni/"/>
+		<source-file src="src/common/picornt/picornt.h" target-dir="app/src/main/java/c/common/picornt"/>
+		<source-file src="src/common/picornt/picornt.c" target-dir="app/src/main/java/c/common/picornt"/>
+		-->
+		<!-- END DEBUG -->
+
 	</platform>
 </plugin>
