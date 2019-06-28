@@ -12,17 +12,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+git@github.com:luisdemarchi/cordova-plugin-facedetection-lite.git"
+    "url": "https://github.com/luisdemarchi/cordova-plugin-facedetection-lite.git"
   },
+  "issue": "https://github.com/luisdemarchi/cordova-plugin-facedetection-lite/issues",
   "keywords": [
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android",
+    "cordova-browser",
     "facedetection",
     "face",
     "detection",
     "detecção",
-    "ecosystem:cordova",
-    "cordova-ios",
-    "cordova-android",
-    "cordova-browser"
+    "lite"
   ],
   "author": "Luís De Marchi",
   "license": "unlicense"
