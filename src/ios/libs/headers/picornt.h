@@ -21,11 +21,6 @@ int find_objects
 	float scalefactor, float stridefactor, float minsize, float maxsize
 );
 
-int run_cascade(
-	void* cascade, float* o, int r, int c, int s, 
-	void* vppixels, int nrows, int ncols, int ldim
-);
-
 int cluster_detections(float rcsq[], int n);
 
 int update_memory
