@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-facedetection-lite",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "A face detection offline with a few lines of code. Was designed to run on old smartphones.",
   "cordova": {
     "id": "cordova-plugin-facedetection-lite",
