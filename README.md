@@ -17,7 +17,55 @@ cordova plugins add cordova-plugin-facedetection-lite
 ```
 
 # Methods
-TODO
+
+### initFaceDetection(`sizeFrameMemory`, faceFinderPath, resultCallback)
+
+* `sizeFrameMemory` - Number of frames that will be used to reinforce the detection of all faces. Defaults to 5
+* `faceFinderPath` - Facial training file location, being allowed offline. Defaults to [cascades/facefinder](https://raw.githubusercontent.com/nenadmarkus/pico/c2e81f9d23cc11d1a612fd21e4f9de0921a5d0d9/rnt/cascades/facefinder)
+* `resultCallback` - Callback function
+
+
+##### Code:
+```javascript
+facedetection.initFaceDetection(5, "./facefinder", function (result) {
+    /* Here you can create the loop to detect frames */
+});
+```
+**Warning**: Until the current version, the parameters are being ignored on some platforms, being ixed default value in the code.
+{: .alert .alert-warning}
+
+<!-- blank line -->
+----
+<!-- blank line -->
+
+### detections(rgba, width, height, minSizeFace, maxSizeFace, iouthreshold, resultCallback)
+
+* `rgba` - Image in byte array
+* `width` - Image width
+* `height` - Image height
+* `minSizeFace` - Minimum size of selected faces
+* `maxSizeFace` - Minimum size of selected faces
+* `iouthreshold` - Maximum size of selected faces
+* `resultCallback` - Callback function
+
+**Warning**: Until the current version, only the first 3 parameters are implemented and the rest of the parameters are being ignored on some of the platforms, being fixed default value in the code.
+{: .alert .alert-warning}
+
+##### Code:
+```javascript
+facedetection.detections(rgba, cameraWidth, cameraHeight, cameraWidth * 0.2, cameraWidth * 1.2, 0.1, function (dets) {
+    for (i = 0; i < dets.length; ++i) {
+        var box = dets[i];
+
+        var canvasPreviewCtx = canvasPreview.getContext('2d');
+        canvasPreviewCtx.beginPath();
+        canvasPreviewCtx.arc(box[1], box[0], box[2] / 2, 0, 2 * Math.PI, false);
+        canvasPreviewCtx.lineWidth = 1;
+        canvasPreviewCtx.strokeStyle = 'red';
+        canvasPreviewCtx.stroke();
+    }
+});
+```
 
 # Sample App
 TODO
@@ -34,6 +82,14 @@ TODO
 </td>
 </tr>
 </table>
+
+# Task List
+- [x] Basic structure of the plugin;
+- [x] Add PicoJS library to the Browser
+- [x] Compile Pico library in C for iOS
+- [x] Compile Pico library in C for Android
+- [ ] Process dynamic path to training file
+- [ ] Process dynamic parameters when calling each function
 
 # Development
 If you intend to do some improvement in the project, follow some instructions, such as compiling library in the C language.
@@ -69,3 +125,9 @@ Created by Luís De Marchi [@luisdemarchi](https://github.com/luisdemarchi) - [L
 #### Libraries used:
   - Mobile (Language C) : [nenadmarkus/pico](https://github.com/nenadmarkus/pico)
   - Browser (Language JS): [tehnokv/picojs](https://github.com/tehnokv/picojs)
+
+<style>
+.alert-warning {
+  color: rgb(138,109,59) !important;
+}
+</style>
