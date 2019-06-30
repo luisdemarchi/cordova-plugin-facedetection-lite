@@ -31,7 +31,7 @@ facedetection.initFaceDetection(5, "./facefinder", function (result) {
     /* Here you can create the loop to detect frames */
 });
 ```
-**Warning**: Until the current version, the parameters are being ignored on some platforms, being ixed default value in the code.
+<info>**Warning**: Until the current version, the parameters are being ignored on some platforms, being ixed default value in the code.</info>
 {: .alert .alert-warning}
 
 <!-- blank line -->
@@ -48,8 +48,7 @@ facedetection.initFaceDetection(5, "./facefinder", function (result) {
 * `iouthreshold` - Maximum size of selected faces
 * `resultCallback` - Callback function
 
-**Warning**: Until the current version, only the first 3 parameters are implemented and the rest of the parameters are being ignored on some of the platforms, being fixed default value in the code.
-{: .alert .alert-warning}
+<info>**Warning**: Until the current version, only the first 3 parameters are implemented and the rest of the parameters are being ignored on some of the platforms, being fixed default value in the code.</info>
 
 ##### Code:
 ```javascript
@@ -125,9 +124,3 @@ Created by Luís De Marchi [@luisdemarchi](https://github.com/luisdemarchi) - [L
 #### Libraries used:
   - Mobile (Language C) : [nenadmarkus/pico](https://github.com/nenadmarkus/pico)
   - Browser (Language JS): [tehnokv/picojs](https://github.com/tehnokv/picojs)
-
-<style>
-.alert-warning {
-  color: rgb(138,109,59) !important;
-}
-</style>

@@ -47,9 +47,9 @@
 
 	<!-- android -->
 	<platform name="android">
-		<config-file target="app/src/main/res/xml/config.xml" parent="/*">
+		<config-file target="res/xml/config.xml" parent="/*">
 			<feature name="FaceDetection-Lite">
-				<param name="android-package" value="br.com.luisdemarchi.FaceDetectionPlugin"/>
+				<param name="android-package" value="br.com.luisdemarchi.FaceDetectionPlugin" />
 			</feature>
 		</config-file>
 
@@ -65,22 +65,23 @@
 		<source-file src="src/android/libs/x86_64/libpicornt.so" target-dir="app/src/main/jniLibs/x86_64/" />
 		<!-- END PRODUCTION -->
 
-		<!-- DEBUG - these files are not needed for production -->
-		<!-- Custom gradle file to setup NDK for debugging -->
+
+		<!-- DEBUG 
+
+		DEBUG - these files are not needed for production
+		Custom gradle file to setup NDK for debugging
 		<source-file src="src/android/build-extras.gradle" target-dir="."/>
 
-		<!-- NDK Make file for source references for C debugging -->
+		NDK Make file for source references for C debugging
 		<source-file src="src/android/jni/Android.mk" target-dir="app/src/main/java/c/android/jni/"/>
 
-		<!-- C source files -->
-		<!-- DEBUG -->
-		<!-- 
+		C source files
 		<source-file src="src/android/jni/FaceDetectionJni.h" target-dir="app/src/main/java/c/android/jni/"/>
 		<source-file src="src/android/jni/FaceDetectionJni.c" target-dir="app/src/main/java/c/android/jni/"/>
 		<source-file src="src/common/picornt/picornt.h" target-dir="app/src/main/java/c/common/picornt"/>
 		<source-file src="src/common/picornt/picornt.c" target-dir="app/src/main/java/c/common/picornt"/>
-		-->
-		<!-- END DEBUG -->
+		
+		END DEBUG -->
 
 	</platform>
 </plugin>
