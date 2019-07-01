@@ -5,10 +5,11 @@
 
 @interface FaceDetection : CDVPlugin {
     bool initialized;
+    int faceFrameMemory;
     NSData *faceFinder;
     int maxslotsize;
     int maxndets;
-    Float32* memory;
+    Float32* memoryDets;
     UInt32* counts;
 }
 
@@ -80,7 +81,7 @@
     self->maxndets = 20;
     int nmemslots = 5;
     self->maxslotsize = 256;
-    self->memory = malloc(sizeof(Float32*) * 4*nmemslots*self->maxslotsize);
+    self->memoryDets = malloc(sizeof(Float32*) * 4*nmemslots*self->maxslotsize);
     
     initialized = true;
     
@@ -90,11 +91,17 @@
 {
     [self.commandDelegate runInBackground:^{
         if (self->maxndets > 0){
-            NSDictionary* data = [command argumentAtIndex:0];
-            NSDictionary* rgbaDict = [data objectForKey:@"rgba"];
-
-            int height = [[data objectForKey:@"height"]  intValue];
-            int width = [[data objectForKey:@"width"]  intValue];
+            NSDictionary* data;
+            NSDictionary* rgbaDict;
+            int height;
+            int width;
+            
+            data = [command argumentAtIndex:0];
+            rgbaDict = [data objectForKey:@"rgba"];
+            
+            height = [[data objectForKey:@"height"]  intValue];
+            width = [[data objectForKey:@"width"]  intValue];
+            
 
             long totalPixels = height*width;
             UInt8 rawData[totalPixels];
@@ -109,11 +116,13 @@
             float dets[4 * self->maxndets];
 
             int ndets;
+            float minSizeFace = width * 0.3;
+            float maxSizeFace = width * 0.9;
             ndets = find_objects(
                                  &dets, self->maxndets,
                                  [self->faceFinder bytes], 0.0,
                                  rawData, height, width, width,
-                                 1.1, 0.1, 10, 100
+                                 1.1, 0.12, minSizeFace, maxSizeFace
                                  );
 
             int nmemslots = 5;
@@ -123,28 +132,46 @@
 
             ndets = update_memory(
                                   slot,
-                                  &self->memory, counts, nmemslots, self->maxslotsize,
+                                  &self->memoryDets, counts, nmemslots, self->maxslotsize,
                                   &dets, ndets, self->maxndets
                                   );
             ndets = cluster_detections(
                                        &dets, ndets
                                        );
-            NSMutableArray* detectionArray = [NSMutableArray arrayWithCapacity:ndets];
+            NSMutableArray* detectionArray = [NSMutableArray new];
             for (int i = 0; i < ndets; i++) {
                 NSNumber *y = [NSNumber numberWithFloat:dets[4*i]];
                 NSNumber *x = [NSNumber numberWithFloat:dets[4*i+1]];
                 NSNumber *size = [NSNumber numberWithFloat:dets[4*i+2]];
                 NSNumber *score = [NSNumber numberWithFloat:dets[4*i+4]];
 
+                if (!isnormal(y.floatValue) || !isnormal(x.floatValue) || !isnormal(size.floatValue)){
+                    continue;
+                }else if (isnan(score.floatValue)){
+                    self->maxndets = 0;
+                    self->initialized = false;
+                    #warning TODO - pass original parameters
+                    [self initFaceDetection:command];
+                    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:@[]];
+                    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+                    return;
+                }
+
                 [detectionArray addObject:@[y, x, size, score]];
+            }
+
+            @try {
+                CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:detectionArray];
+                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            }
+            @catch (NSException *exception) {
+                CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:@[]];
+                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
             }
 
             data = nil;
             rgbaDict = nil;
-            CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:detectionArray];
-            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
             detectionArray = nil;
-
         }else{
             CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:@[]];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
