@@ -11,6 +11,10 @@ This plugin implementation of the method described in [2013 by Markuš et al](ht
 
 PS: For older smartphones, it is ideal that each frame analyzed has a maximum height and width of 60 pixels and the processing loop runs every 100 milliseconds or more. In the sample project this was implemented.
 
+<!-- blank line -->
+----
+<!-- blank line -->
+
 # Installation
 ```
 cordova plugins add cordova-plugin-facedetection-lite
@@ -32,11 +36,6 @@ facedetection.initFaceDetection(5, "./facefinder", function (result) {
 });
 ```
 <info>**Warning**: Until the current version, the parameters are being ignored on some platforms, being ixed default value in the code.</info>
-{: .alert .alert-warning}
-
-<!-- blank line -->
-----
-<!-- blank line -->
 
 ### detections(rgba, width, height, minSizeFace, maxSizeFace, iouthreshold, resultCallback)
 
@@ -47,8 +46,6 @@ facedetection.initFaceDetection(5, "./facefinder", function (result) {
 * `maxSizeFace` - Minimum size of selected faces
 * `iouthreshold` - Maximum size of selected faces
 * `resultCallback` - Callback function
-
-<info>**Warning**: Until the current version, only the first 3 parameters are implemented and the rest of the parameters are being ignored on some of the platforms, being fixed default value in the code.</info>
 
 ##### Code:
 ```javascript
@@ -65,8 +62,15 @@ facedetection.detections(rgba, cameraWidth, cameraHeight, cameraWidth * 0.2, cam
     }
 });
 ```
+<info>**Warning**: Until the current version, only the first 3 parameters are implemented and the rest of the parameters are being ignored on some of the platforms, being fixed default value in the code.</info>
+
+<!-- blank line -->
+----
+<!-- blank line -->
 
 # Sample App
+
+## Camera
 TODO
 
 <table>
@@ -82,6 +86,62 @@ TODO
 </tr>
 </table>
 
+## Image
+```javascript
+function sampleImageDetector() {
+    var width = 319;
+    var height = 480;
+
+    var canvasPreview = document.createElement('canvas');
+    canvasPreview.width = width;
+    canvasPreview.height = height;
+
+    var canvasPreviewCtx = canvasPreview.getContext('2d');
+
+    var url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Will_Smith_by_Gage_Skidmore.jpg/319px-Will_Smith_by_Gage_Skidmore.jpg';
+    var baseImage = new Image();
+    baseImage.src = url + '?' + new Date().getTime();
+    baseImage.setAttribute('crossOrigin', '');
+    baseImage.onload = function () {
+        canvasPreviewCtx.drawImage(baseImage, 0, 0);
+        var rgba = canvasPreviewCtx.getImageData(0, 0, width, height).data;
+
+        facedetection.initFaceDetection(0, "./facefinder", function (result) {
+            facedetection.detections(rgba, width, height, width * 0.2, width * 1.2, 0.1,
+                function (dets) {
+                    var greaterFace = Math.max.apply(
+                        Math,
+                        dets.map(function (o) {
+                            return o[2];
+                        })
+                    );
+    
+                    for (i = 0; i < dets.length; ++i) {
+                        var box = dets[i];
+                        if (box[2] != greaterFace || box[3] === undefined) {
+                            continue;
+                        }
+
+                        if (box !== undefined) {
+                            canvasPreviewCtx.beginPath();
+                            canvasPreviewCtx.arc(box[1], box[0], box[2] / 2, 0, 2 * Math.PI, false);
+                            canvasPreviewCtx.lineWidth = 3;
+                            canvasPreviewCtx.strokeStyle = 'red';
+                            canvasPreviewCtx.stroke();
+                        }
+                    }
+                    document.body.appendChild(canvasPreview);
+                });
+        });
+
+    };
+}
+```
+
+<!-- blank line -->
+----
+<!-- blank line -->
+
 # Task List
 - [x] Basic structure of the plugin;
 - [x] Add PicoJS library to the Browser
@@ -89,6 +149,10 @@ TODO
 - [x] Compile Pico library in C for Android
 - [ ] Process dynamic path to training file
 - [ ] Process dynamic parameters when calling each function
+
+<!-- blank line -->
+----
+<!-- blank line -->
 
 # Development
 If you intend to do some improvement in the project, follow some instructions, such as compiling library in the C language.
