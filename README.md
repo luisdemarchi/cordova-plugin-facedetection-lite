@@ -1,4 +1,4 @@
-# Cordova Plugin Face Detection - LITE
+Cordova Plugin Face Detection - LITE
 =======================
 
 Plugin for facial detection in real-time and off-line, extremely lite. It is designed to run on old smartphones.
@@ -6,14 +6,10 @@ This plugin implemented the method described in [2013 by Markuš et al] (http://
 
 PS: For older smartphones, it is ideal that each frame reviewed has a maximum height and width of 60 pixels and the processing cycle runs every 100 milliseconds or more. In the sample project, this was implemented.
 
-<!-- blank line -->
-----
-<!-- blank line -->
 
 # Installation
 
-Esse plugin pode ser utilizado nas plataformas iOS, Android, Electron e Browser;
-
+This plugin can be used on the iOS, Android, Electron and Browser platforms;
 ```
 cordova plugins add cordova-plugin-facedetection-lite
 ```
@@ -62,19 +58,15 @@ facedetection.detections(rgba, cameraWidth, cameraHeight, cameraWidth * 0.2, cam
 ```
 <info>**Warning**: Until the current version, only the first 3 parameters are implemented and the rest of the parameters are being ignored on some of the platforms, being fixed default value in the code.</info>
 
-<!-- blank line -->
-----
-<!-- blank line -->
 
 # Sample App
 
 [cordova-sample-facedetection](https://github.com/luisdemarchi/cordova-sample-facedetection) for a complete working Cordova example for Android, iOS and Browser platforms.
 
-
 <table>
 <tr>
 <td>
-<h3>iOS</h3>
+<h3>iOS / Android</h3>
 <img src="https://github.com/luisdemarchi/cordova-plugin-facedetection-lite/raw/a3dd61fa8f7de022b165accaa12d788758698ba3/images/demo-ios.gif"  height="300">
 </td>
 <td>
@@ -84,9 +76,6 @@ facedetection.detections(rgba, cameraWidth, cameraHeight, cameraWidth * 0.2, cam
 </tr>
 </table>
 
-<!-- blank line -->
-----
-<!-- blank line -->
 
 # Task List
 
@@ -97,9 +86,6 @@ facedetection.detections(rgba, cameraWidth, cameraHeight, cameraWidth * 0.2, cam
 - [ ] Process dynamic path to training file
 - [ ] Process dynamic parameters when calling each function
 
-<!-- blank line -->
-----
-<!-- blank line -->
 
 # Development
 
