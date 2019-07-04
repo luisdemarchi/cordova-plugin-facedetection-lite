@@ -6,7 +6,7 @@
 @interface FaceDetection : CDVPlugin {
     bool initialized;
     int faceFrameMemory;
-    NSData *faceFinder;
+    Byte *faceFinder;
     int maxslotsize;
     int maxndets;
     Float32* memoryDets;
@@ -74,10 +74,13 @@
     
     
     NSString* currentFile = [self.commandDelegate pathForResource:@"facefinder"];
-    NSData *fileData = [NSData dataWithContentsOfFile:currentFile];
+    NSData *file = [NSData dataWithContentsOfFile:currentFile];
 
+    NSUInteger len = [file length];
+    Byte *byteData = (Byte*)malloc(len);
+    memcpy(byteData, [file bytes], len);
+    self->faceFinder = byteData;
     
-    self->faceFinder = fileData;
     self->maxndets = 20;
     int nmemslots = 5;
     self->maxslotsize = 256;
@@ -120,7 +123,7 @@
             float maxSizeFace = width * 0.9;
             ndets = find_objects(
                                  &dets, self->maxndets,
-                                 [self->faceFinder bytes], 0.0,
+                                 self->faceFinder, 0.0,
                                  rawData, height, width, width,
                                  1.1, 0.12, minSizeFace, maxSizeFace
                                  );
@@ -145,7 +148,7 @@
                 NSNumber *size = [NSNumber numberWithFloat:dets[4*i+2]];
                 NSNumber *score = [NSNumber numberWithFloat:dets[4*i+4]];
 
-                if (!isnormal(y.floatValue) || !isnormal(x.floatValue) || !isnormal(size.floatValue)){
+                if (!isfinite(y.floatValue) || !isfinite(x.floatValue) || !isfinite(size.floatValue) || size.floatValue < minSizeFace || size.floatValue > maxSizeFace){
                     continue;
                 }else if (isnan(score.floatValue)){
                     self->maxndets = 0;
