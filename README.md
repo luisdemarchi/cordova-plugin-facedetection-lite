@@ -37,8 +37,7 @@ facedetection.initFaceDetection(5, "./facefinder", function (result) {
 * `width` - Image width
 * `height` - Image height
 * `minSizeFace` - Minimum size of selected faces
-* `maxSizeFace` - Minimum size of selected faces
-* `iouthreshold` - Maximum size of selected faces
+* `maxSizeFace` - Maximum size of selected faces
 * `resultCallback` - Callback function
 
 ##### Code:
